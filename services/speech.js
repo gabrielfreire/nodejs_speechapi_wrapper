@@ -6,15 +6,24 @@ const FILE_PATH_EX = path.join(__dirname, '../uploads/example.wav');
 
 class SpeechService  {
     constructor(io) {
+        const self = this;
         this.filePath = path.join(__dirname, '../uploads/a-.wav');
         this.SpeechAPIURL = "https://speech.platform.bing.com/speech/recognition/dictation/cognitiveservices/v1?language=en-US&format=simple";
         io.on('connect', (client) => {
             console.log('Someone connected');
-            let self = this;
             client.on('message', function(data) {
-                self.clientOnMessage(data, client);
+                console.log('Message received');
+                let fileName = 'a-';
+                let result;
+                self.writeToDisk(data.audio.dataURL, fileName + '.wav');
+                result = await self.speak();
+                if(result) {
+                    client.emit('result', result);
+                }
             });
-            client.on('disconnect', self.clientOnDisconnect);
+            client.on('disconnect', function() {
+                console.log('Someone disconnected');
+            });
         });
     }
 
@@ -40,19 +49,6 @@ class SpeechService  {
         headers["Content-Type"] = 'audio/wav; codec="audio/pcm"; samplerate=16000';
         options['headers'] = headers;
         return options;
-    }
-
-    async clientOnMessage (data, client) {
-        let fileName = 'a-';
-        let result;
-        this.writeToDisk(data.audio.dataURL, fileName + '.wav');
-        result = await this.speak();
-        if(result) {
-            client.emit('result', result);
-        }
-    }
-    clientOnDisconnect () {
-        console.log('Someone disconnected');
     }
 
     writeToDisk(dataURL, fileName) {

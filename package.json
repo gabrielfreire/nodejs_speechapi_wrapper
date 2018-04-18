@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bingspeech-api-client": "^2.4.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "microsoft-speech-browser-sdk": "0.0.12",
+    "needle": "^2.2.0",
     "socket.io": "^2.1.0"
   }
 }

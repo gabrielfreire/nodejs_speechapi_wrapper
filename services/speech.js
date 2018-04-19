@@ -11,7 +11,7 @@ class SpeechService  {
         this.SpeechAPIURL = "https://speech.platform.bing.com/speech/recognition/dictation/cognitiveservices/v1?language=en-US&format=simple";
         io.on('connect', (client) => {
             console.log('Someone connected');
-            client.on('message', function(data) {
+            client.on('message',async function(data) {
                 console.log('Message received');
                 let fileName = 'a-';
                 let result;
@@ -37,6 +37,7 @@ class SpeechService  {
                 if (res.statusCode !== 200) {
                     reject(new Error(`Wrong status code ${res.statusCode} and message ${res.statusMessage} in Bing Speech API / synthesize`));
                 }
+                console.log('Result ->', body);
                 resolve(body);
             });
         });

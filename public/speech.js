@@ -155,7 +155,7 @@ SpeechRecognizerAPI.prototype.speak = function() {
         audio: true
     }, function(stream) {
         self.mediaStream = stream;
-        "https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createMediaStreamSource"
+        // "https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createMediaStreamSource"
         self.micInput = self.context.createMediaStreamSource(stream);
         self.record(self.micInput, self.mediaStream);
     }, function(error) {
